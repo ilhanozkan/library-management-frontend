@@ -2,7 +2,11 @@ import React from "react";
 import { BookOpen, Github, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
 
+import { useAuthStore } from "../../store/authStore";
+
 const Footer: React.FC = () => {
+  const { isAuthenticated } = useAuthStore();
+
   return (
     <footer className="bg-white border-t border-gray-200 mt-auto">
       <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
@@ -41,22 +45,26 @@ const Footer: React.FC = () => {
                   Books
                 </Link>
               </li>
-              <li>
-                <Link
-                  to="/login"
-                  className="text-sm text-gray-600 hover:text-primary-600"
-                >
-                  Login
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/register"
-                  className="text-sm text-gray-600 hover:text-primary-600"
-                >
-                  Register
-                </Link>
-              </li>
+              {!isAuthenticated && (
+                <>
+                  <li>
+                    <Link
+                      to="/login"
+                      className="text-sm text-gray-600 hover:text-primary-600"
+                    >
+                      Login
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/register"
+                      className="text-sm text-gray-600 hover:text-primary-600"
+                    >
+                      Register
+                    </Link>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
 

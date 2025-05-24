@@ -4,8 +4,11 @@ import { BookOpen, Search, Clock, BookMarked } from "lucide-react";
 import { motion } from "framer-motion";
 
 import Button from "../components/ui/Button";
+import { useAuthStore } from "../store/authStore";
 
 const Home: React.FC = () => {
+  const { isAuthenticated } = useAuthStore();
+
   return (
     <div className="space-y-16">
       {/* Hero Section */}
@@ -167,13 +170,15 @@ const Home: React.FC = () => {
                 </Button>
               </Link>
             </div>
-            <div className="ml-3 inline-flex rounded-md shadow">
-              <Link to="/register">
-                <Button variant="outline" size="lg">
-                  Create Account
-                </Button>
-              </Link>
-            </div>
+            {!isAuthenticated && (
+              <div className="ml-3 inline-flex rounded-md shadow">
+                <Link to="/register">
+                  <Button variant="outline" size="lg">
+                    Create Account
+                  </Button>
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </section>

@@ -125,6 +125,7 @@ export const bookService = {
     const response = await api.get<PaginatedResponse<Book>>(
       `/books/search?${queryParams.toString()}`
     );
+
     return response.data;
   },
 
