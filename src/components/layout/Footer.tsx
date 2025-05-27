@@ -76,16 +76,16 @@ const Footer: React.FC = () => {
               <li className="flex items-center">
                 <Mail className="h-5 w-5 text-gray-500 mr-2" />
                 <a
-                  href="mailto:support@librarysystem.com"
+                  href="mailto:support@ilhanozkan.com"
                   className="text-sm text-gray-600 hover:text-primary-600"
                 >
-                  support@librarysystem.com
+                  support@ilhanozkan.com
                 </a>
               </li>
               <li className="flex items-center">
                 <Github className="h-5 w-5 text-gray-500 mr-2" />
                 <a
-                  href="https://github.com/librarysystem"
+                  href="https://github.com/ilhanozkan"
                   className="text-sm text-gray-600 hover:text-primary-600"
                   target="_blank"
                   rel="noopener noreferrer"

@@ -41,7 +41,7 @@ const BorrowingCard: React.FC<BorrowingCardProps> = ({
     <Card hoverable className="h-full flex flex-col">
       <CardBody className="flex flex-col flex-grow">
         <div className="flex items-start justify-between mb-2">
-          <h3 className="text-lg font-semibold text-gray-900 line-clamp-1">
+          <h3 className="text-lg font-semibold text-gray-900 line-clamp-2">
             {borrowing.book?.name || "Unknown Book"}
           </h3>
           {getStatusBadge()}
