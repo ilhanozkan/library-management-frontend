@@ -24,7 +24,7 @@ A modern, responsive library management frontend system built with React and Typ
 
 ![Image](https://github.com/user-attachments/assets/3ba3a194-328d-43dc-9582-bd08c6ee13e7)
 
-![Image](https://github.com/user-attachments/assets/ef2a784d-18c3-4280-95d7-79c5eeb29389)
+![Image](https://github.com/user-attachments/assets/19985c79-23fb-4741-bf97-46349b7d78c3)
 
 ![Image](https://github.com/user-attachments/assets/9e075ae6-3821-40fe-aefd-51e1498cab40)
 

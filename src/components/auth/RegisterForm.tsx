@@ -58,7 +58,7 @@ const RegisterForm: React.FC = () => {
         <UserPlus className="h-12 w-12 text-primary-600" />
       </div>
       <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">
-        Create an Account
+        Register
       </h2>
 
       {registerError && (
