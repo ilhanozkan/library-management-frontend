@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 import { LogIn } from "lucide-react";
@@ -13,7 +13,7 @@ interface LoginFormData {
 }
 
 const LoginForm: React.FC = () => {
-  const { login, isLoading, error } = useAuthStore();
+  const { login, isLoading, loginError, resetLoginError } = useAuthStore();
   const navigate = useNavigate();
 
   const {
@@ -23,13 +23,18 @@ const LoginForm: React.FC = () => {
   } = useForm<LoginFormData>();
 
   const onSubmit = async (data: LoginFormData) => {
-    await login(data.username, data.password);
-    if (!error) {
+    const success = await login(data.username, data.password);
+
+    if (success)
       navigate("/");
-    } else {
-      console.error("Login failed:", error);
-    }
   };
+
+  useEffect(() => {
+    // Reset login error when component unmounts
+    return () => {
+      if (loginError) resetLoginError();
+    };
+  }, []);
 
   return (
     <div className="bg-white shadow-md rounded-lg p-8 max-w-md mx-auto">
@@ -40,9 +45,9 @@ const LoginForm: React.FC = () => {
         Sign In
       </h2>
 
-      {error && (
+      {loginError && (
         <div className="bg-error-50 text-error-700 p-3 rounded mb-4">
-          {error}
+          {loginError}
         </div>
       )}
 

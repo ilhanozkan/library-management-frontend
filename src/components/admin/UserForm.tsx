@@ -120,7 +120,6 @@ const UserForm: React.FC<UserFormProps> = ({
           onChange={handleRoleChange}
           error={errors.role?.message}
           fullWidth
-          {...register("role")}
         />
 
         <Select
@@ -130,7 +129,6 @@ const UserForm: React.FC<UserFormProps> = ({
           onChange={handleStatusChange}
           error={errors.status?.message}
           fullWidth
-          {...register("status")}
         />
       </div>
 

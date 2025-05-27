@@ -7,24 +7,31 @@ interface AuthState {
   user: AuthUser | null;
   isAuthenticated: boolean;
   isLoading: boolean;
-  error: string | null;
-  login: (username: string, password: string) => Promise<void>;
+  loginError: string | null;
+  registerError: string | null;
+  login: (username: string, password: string) => Promise<boolean>;
   register: (
     username: string,
     email: string,
     password: string,
     name: string,
     surname: string
-  ) => Promise<void>;
+  ) => Promise<boolean>;
   logout: () => void;
   initialize: () => void;
+  resetLoginError: () => void;
+  resetRegisterError: () => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   isAuthenticated: false,
   isLoading: true,
-  error: null,
+  loginError: null,
+  registerError: null,
+
+  resetLoginError: () => set({ loginError: null }),
+  resetRegisterError: () => set({ registerError: null }),
 
   initialize: async () => {
     set({ isLoading: true });
@@ -40,7 +47,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   },
 
   login: async (username, password) => {
-    set({ isLoading: true, error: null });
+    set({ isLoading: true, loginError: null });
 
     try {
       const {
@@ -58,22 +65,19 @@ export const useAuthStore = create<AuthState>((set) => ({
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
 
-      set({ user, isAuthenticated: true, isLoading: false, error: null });
-    } catch (error) {
+      set({ user, isAuthenticated: true, isLoading: false, loginError: null });
+      return true;
+    } catch (error: any) {
       console.error("Login error:", error);
-      let errorMessage =
-        "Login failed. Please check your credentials and try again.";
+      const errorMessage = error.response?.data?.message || error.message || "Login failed. Please check your credentials and try again.";
 
-      if (error instanceof Error) {
-        errorMessage = error.message;
-      }
-
-      set({ isLoading: false, error: errorMessage });
+      set({ isLoading: false, loginError: errorMessage });
+      return false;
     }
   },
 
   register: async (username, email, password, name, surname) => {
-    set({ isLoading: true, error: null });
+    set({ isLoading: true, registerError: null });
 
     try {
       await authService.register({
@@ -84,16 +88,14 @@ export const useAuthStore = create<AuthState>((set) => ({
         surname,
       });
 
-      set({ isAuthenticated: true, isLoading: false, error: null });
-    } catch (error) {
+      set({ isLoading: false, registerError: null });
+      return true;
+    } catch (error: any) {
       console.error("Registration error:", error);
-      let errorMessage = "Registration failed. Please try again.";
+      const errorMessage = error.response?.data?.message || error.message || "Registration failed. Please try again.";
 
-      if (error instanceof Error) {
-        errorMessage = error.message;
-      }
-
-      set({ isLoading: false, error: errorMessage });
+      set({ isLoading: false, registerError: errorMessage });
+      return false;
     }
   },
 

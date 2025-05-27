@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 import { UserPlus } from "lucide-react";
+import { toast } from "react-toastify";
 
 import { useAuthStore } from "../../store/authStore";
 import Input from "../ui/Input";
@@ -17,7 +18,7 @@ interface RegisterFormData {
 }
 
 const RegisterForm: React.FC = () => {
-  const { register: registerUser, isLoading, error } = useAuthStore();
+  const { register: registerUser, isLoading, registerError, resetRegisterError } = useAuthStore();
   const navigate = useNavigate();
 
   const {
@@ -30,17 +31,26 @@ const RegisterForm: React.FC = () => {
   const password = watch("password");
 
   const onSubmit = async (data: RegisterFormData) => {
-    await registerUser(
+    const success = await registerUser(
       data.username,
       data.email,
       data.password,
       data.name,
       data.surname
     );
-    if (!error) {
-      navigate("/");
+
+    if (success) {
+      toast.success("Account created successfully, please login to continue");
+      navigate("/login");
     }
   };
+
+  useEffect(() => {
+    // Reset register error when component unmounts
+    return () => {
+      if (registerError) resetRegisterError();
+    };
+  }, []);
 
   return (
     <div className="bg-white shadow-md rounded-lg p-8 max-w-md mx-auto">
@@ -51,9 +61,9 @@ const RegisterForm: React.FC = () => {
         Create an Account
       </h2>
 
-      {error && (
+      {registerError && (
         <div className="bg-error-50 text-error-700 p-3 rounded mb-4">
-          {error}
+          {registerError}
         </div>
       )}
 
